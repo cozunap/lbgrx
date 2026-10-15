@@ -161,3 +161,15 @@ header.is-sticky,
   width: 20px !important;
   height: 20px !important;
 }
+
+/* Ensure placeholder images fill containers with cover mode */
+.elementor-image img,
+.elementor-widget-image img,
+.ct-media-container img,
+.entry-content img,
+article img,
+.gallery img,
+.post-thumbnail img {
+  object-fit: cover !important;
+}
+
