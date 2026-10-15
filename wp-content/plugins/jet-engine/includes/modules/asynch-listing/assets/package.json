@@ -1,0 +1,14 @@
+{
+	"name": "jet-engine-asynch-listing",
+	"version": "1.0.0",
+	"license": "GPL-2.0-or-later",
+	"scripts": {
+		"start": "wp-scripts start",
+		"build": "wp-scripts build",
+		"test:unit": "wp-scripts test-unit-js"
+	},
+	"devDependencies": {
+		"@wordpress/scripts": "^30.9.0",
+		"sass": "^1.82.0"
+	}
+}

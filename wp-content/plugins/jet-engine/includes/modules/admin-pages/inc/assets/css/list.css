@@ -1,0 +1,49 @@
+.child-admin-page-padded {
+  margin-left: 20px;
+}
+
+.list-table-item__cell.cell--parent {
+  display: flex;
+}
+
+.jet-engine-admin-page-warning {
+  display: flex;
+  align-items: center;
+  margin: 0 5px 0 0;
+  font-size: 12px;
+  color: #C92C2C;
+  position: relative;
+}
+.jet-engine-admin-page-warning svg path {
+  fill: #C92C2C;
+}
+.jet-engine-admin-page-warning__tip {
+  position: absolute;
+  display: block;
+  box-sizing: border-box;
+  bottom: 100%;
+  margin: 0 0 15px;
+  background: #fff;
+  padding: 5px 10px;
+  white-space: normal;
+  border-radius: 3px;
+  left: 0;
+  min-width: 300px;
+  max-width: 700px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.05);
+  pointer-events: none;
+  opacity: 0;
+  transition: all 100ms linear;
+}
+
+.jet-engine-admin-page-warning:hover .jet-engine-admin-page-warning__tip {
+  opacity: 1;
+}
+
+.cx-vue-list-table .cols-4 .list-table-heading__cell.cell--page_id, .cx-vue-list-table .cols-4 .list-table-item__cell.cell--page_id {
+    flex: 0 0 60px;
+    width: 60px;
+    padding-right: 0;
+}

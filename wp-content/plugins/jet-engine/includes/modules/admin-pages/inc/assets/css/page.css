@@ -1,0 +1,26 @@
+.jet-engine-admin-page-content {
+  width: 100%;
+  --inner-height: 100vh;
+  min-height: var(--inner-height);
+  margin-left: -10px;
+}
+.jet-engine-admin-page-content[data-fixed-height] {
+  height: var(--inner-height, 100vh);
+}
+.jet-engine-admin-page-content.in-body {
+  overflow-y: auto;
+}
+
+#wpfooter {
+  display: none;
+}
+
+body.jet-admin-page-height-fixed-scroll {
+  overflow-y: clip;
+}
+body.jet-admin-page-height-fixed-scroll #adminmenuwrap {
+  max-height: 90vh;
+}
+body.jet-admin-page-height-fixed-scroll #adminmenuwrap::-webkit-scrollbar {
+  display: none;
+}

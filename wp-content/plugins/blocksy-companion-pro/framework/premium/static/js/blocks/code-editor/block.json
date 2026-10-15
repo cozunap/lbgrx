@@ -1,0 +1,9 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "blocksy-companion-pro/code-editor",
+	"supports": {
+		"className": false,
+		"html": false
+	}
+}
