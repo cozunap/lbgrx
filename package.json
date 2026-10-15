@@ -1,0 +1,13 @@
+{
+  "name": "lbgrx-fullstack",
+  "version": "1.0.0",
+  "description": "LB Graph-X & Printing Full-Stack Web Application",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler pages dev .",
+    "deploy": "wrangler pages deploy ."
+  },
+  "devDependencies": {
+    "wrangler": "^4.151.0"
+  }
+}
