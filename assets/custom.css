@@ -1,35 +1,50 @@
 /* --- Decoupled Navigation & Sticky Header Styles --- */
 
-/* Allow sticky header to stick properly by ensuring #main-container does not clip vertical overflow */
-#main-container {
-  overflow: visible !important;
-}
-
-/* Sticky Header Behavior */
-header.ct-header,
-header#header,
-.ct-sticky-container,
-[data-sticky] {
+/* Sticky Header to top for all pages */
+header.ct-header {
   position: -webkit-sticky !important;
   position: sticky !important;
   top: 0 !important;
   z-index: 1000 !important;
   width: 100% !important;
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease, box-shadow 0.3s ease !important;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease !important;
 }
 
-/* Ensure background color is clean and crisp when sticky or scrolled */
-header.ct-header,
-.ct-sticky-container {
+/* Default on all internal pages: solid white background */
+header.ct-header {
   background: #ffffff !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
-header.is-sticky,
-.ct-sticky-container.is-sticky {
+/* Home page: transparent header when at top of page */
+body.home header.ct-header:not(.is-sticky) {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+body.home header.ct-header:not(.is-sticky) [data-row="middle"] {
+  background-color: transparent !important;
+}
+
+/* Sticky scrolled state across all pages (including home) */
+header.ct-header.is-sticky,
+body.home header.ct-header.is-sticky {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
   background: rgba(255, 255, 255, 0.98) !important;
   backdrop-filter: blur(10px) !important;
   -webkit-backdrop-filter: blur(10px) !important;
+}
+
+header.ct-header.is-sticky [data-row="middle"] {
+  background-color: transparent !important;
 }
 
 
