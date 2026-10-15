@@ -204,20 +204,6 @@ article.entry-card img {
   aspect-ratio: 1 / 1;
 }
 
-/* Ensure Logo is Always Contained and Never Cropped */
-.site-branding img,
-.site-logo-container img,
-.default-logo,
-.elementor-element-c468f0e img,
-img[src*="LB-Graph-Logo.svg"],
-img[src*="logo"],
-img[src*="Logo"] {
-  object-fit: contain !important;
-  object-position: center !important;
-  aspect-ratio: auto !important;
-  width: auto !important;
-  max-width: 100% !important;
-  height: auto !important;
-}
+
 
 
