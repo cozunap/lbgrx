@@ -1,12 +1,27 @@
 /* --- Decoupled Navigation & Sticky Header Styles --- */
 
+/* Allow sticky header to stick properly by ensuring #main-container does not clip vertical overflow */
+#main-container {
+  overflow: visible !important;
+}
+
 /* Sticky Header Behavior */
-header[data-sticky] {
+header.ct-header,
+header#header,
+.ct-sticky-container,
+[data-sticky] {
   position: -webkit-sticky !important;
   position: sticky !important;
   top: 0 !important;
   z-index: 1000 !important;
+  width: 100% !important;
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+/* Ensure background color is clean and crisp when sticky or scrolled */
+header.ct-header,
+.ct-sticky-container {
+  background: #ffffff !important;
 }
 
 header.is-sticky,
@@ -16,6 +31,7 @@ header.is-sticky,
   backdrop-filter: blur(10px) !important;
   -webkit-backdrop-filter: blur(10px) !important;
 }
+
 
 /* Offcanvas Slide-in Overlay Menu */
 #offcanvas {
