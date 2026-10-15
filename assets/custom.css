@@ -196,13 +196,28 @@ header.ct-header.is-sticky [data-row="middle"] {
 /* Product Images - 1500x1500 Cover Mode */
 .elementor-portfolio-item__img img,
 .elementor-portfolio__item img,
-.elementor-image img,
 .product-image img,
 .woocommerce-product-gallery__image img,
-article.entry-card img,
-.elementor-widget-image img {
+article.entry-card img {
   object-fit: cover !important;
   object-position: center !important;
   aspect-ratio: 1 / 1;
 }
+
+/* Ensure Logo is Always Contained and Never Cropped */
+.site-branding img,
+.site-logo-container img,
+.default-logo,
+.elementor-element-c468f0e img,
+img[src*="LB-Graph-Logo.svg"],
+img[src*="logo"],
+img[src*="Logo"] {
+  object-fit: contain !important;
+  object-position: center !important;
+  aspect-ratio: auto !important;
+  width: auto !important;
+  max-width: 100% !important;
+  height: auto !important;
+}
+
 
