@@ -958,14 +958,7 @@ header.ct-header.is-sticky .ct-header-nav .menu > li > .ct-menu-link:hover {
 }
 
 
-/* Disable theme and injected scroll back to top */
-.ct-back-to-top,
-[data-shortcut="scroll_top"] {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-}
+
 
 /* ==========================================================================
    Active / Selected Menu Item Styling (Brand Orange #F7941D)
@@ -1009,4 +1002,173 @@ body.home header.ct-header:not(.is-sticky) .ct-header-nav .menu > li > .ct-menu-
 .mega-menu-container .mega-column-title a.is-active {
   color: #F7941D !important;
   font-weight: 600 !important;
+}
+
+
+/* ==========================================================================
+   Persistent Bottom Shortcuts Bar (Home, Phone, Get a Quote, Scroll to Top)
+   ========================================================================== */
+.ct-drawer-canvas[data-shortcuts-bar],
+.ct-drawer-canvas[data-location="end"],
+.ct-shortcuts-bar {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  height: 52px !important;
+  z-index: 9999 !important;
+  background-color: #000000 !important;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4) !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+.ct-drawer-canvas .ct-drawer-inner {
+  transform: none !important;
+  height: 100% !important;
+}
+
+.ct-shortcuts-bar-items {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-around !important;
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 10px !important;
+  background-color: #000000 !important;
+  list-style: none !important;
+}
+
+.ct-shortcuts-bar-items li {
+  flex: 1 1 25% !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Vertical dashed dividers between items matching design */
+.ct-shortcuts-bar-items li:not(:last-child)::after {
+  content: '' !important;
+  position: absolute !important;
+  right: 0 !important;
+  top: 20% !important;
+  height: 60% !important;
+  width: 1px !important;
+  border-right: 1px dashed rgba(255, 255, 255, 0.35) !important;
+  pointer-events: none !important;
+}
+
+.ct-shortcuts-bar-items a {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: 100% !important;
+  color: #ffffff !important;
+  background: transparent !important;
+  text-decoration: none !important;
+  transition: transform 0.2s ease, color 0.2s ease !important;
+}
+
+.ct-shortcuts-bar-items a:hover {
+  color: #F7941D !important;
+}
+
+.ct-shortcuts-bar-items a:hover svg {
+  fill: #F7941D !important;
+  transform: scale(1.12) !important;
+}
+
+.ct-shortcuts-bar-items .ct-icon-container {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 26px !important;
+  height: 26px !important;
+}
+
+.ct-shortcuts-bar-items svg {
+  width: 18px !important;
+  height: 18px !important;
+  fill: #ffffff !important;
+  transition: fill 0.2s ease, transform 0.2s ease !important;
+}
+
+/* Ensure body doesn't get obscured at the bottom */
+body {
+  padding-bottom: 52px !important;
+}
+
+/* Modal Popup styling for Get a Quote */
+.lbgrx-quote-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  background: rgba(13, 31, 60, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.lbgrx-quote-modal-overlay.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.lbgrx-quote-modal-card {
+  position: relative;
+  background: #ffffff;
+  border-radius: 18px;
+  width: 100%;
+  max-width: 580px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  padding: 32px 28px 24px;
+  transform: translateY(20px) scale(0.97);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lbgrx-quote-modal-overlay.is-active .lbgrx-quote-modal-card {
+  transform: translateY(0) scale(1);
+}
+
+.lbgrx-quote-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: #f1f5f9;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 1;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.lbgrx-quote-modal-close:hover {
+  background: #e2e8f0;
+  color: #0f172a;
 }
