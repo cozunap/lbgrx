@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /wp-admin/
+Disallow: /wp-includes/
+Disallow: /assets/static/wp-admin/
+
+Sitemap: https://lbgrx.pages.dev/sitemap.xml
