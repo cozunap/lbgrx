@@ -987,3 +987,48 @@ header.ct-header.is-sticky .ct-header-nav .menu > li > .ct-menu-link:hover {
     height: 44px !important;
   }
 }
+
+
+/* ==========================================================================
+   Active / Selected Menu Item Styling (Brand Orange #F7941D)
+   ========================================================================== */
+.ct-header-nav .menu > li.current-menu-item > .ct-menu-link,
+.ct-header-nav .menu > li.current_page_item > .ct-menu-link,
+.ct-header-nav .menu > li.is-active > .ct-menu-link,
+.ct-header-nav .menu > li > .ct-menu-link.is-active,
+.ct-header-nav .menu > li > .ct-menu-link.current-menu-link,
+.ct-header-nav .menu > li > .ct-menu-link[aria-current="page"] {
+  color: #F7941D !important; /* Brand Orange */
+  font-weight: 600 !important;
+}
+
+.ct-header-nav .menu > li.current-menu-item > .ct-menu-link svg,
+.ct-header-nav .menu > li.is-active > .ct-menu-link svg,
+.ct-header-nav .menu > li > .ct-menu-link.is-active svg {
+  fill: #F7941D !important;
+}
+
+/* Home page transparent header active state */
+body.home header.ct-header:not(.is-sticky) .ct-header-nav .menu > li.current-menu-item > .ct-menu-link,
+body.home header.ct-header:not(.is-sticky) .ct-header-nav .menu > li.is-active > .ct-menu-link,
+body.home header.ct-header:not(.is-sticky) .ct-header-nav .menu > li > .ct-menu-link.is-active {
+  color: #F7941D !important;
+}
+
+/* Mobile Offcanvas active item */
+#offcanvas .mobile-menu li.current-menu-item > a,
+#offcanvas .mobile-menu li.is-active > a,
+#offcanvas .mobile-menu a.is-active,
+#offcanvas .mobile-menu a.current-menu-link,
+#offcanvas .mobile-menu a[aria-current="page"] {
+  color: #F7941D !important;
+  font-weight: 600 !important;
+}
+
+/* Mega menu links active state */
+.mega-menu-container .mega-links li.current-menu-item > a,
+.mega-menu-container .mega-links a.is-active,
+.mega-menu-container .mega-column-title a.is-active {
+  color: #F7941D !important;
+  font-weight: 600 !important;
+}

@@ -152,6 +152,63 @@
     }
   })();
 
+  // 5.5. Active Menu Item Highlighter (Brand Orange)
+  (function initActiveMenuHighlighting() {
+    try {
+      const rawPath = window.location.pathname.replace(/\/index\.html$/, '/');
+      const normalizedPath = rawPath.endsWith('/') ? rawPath : (rawPath + '/');
+      
+      const allMenuLinks = document.querySelectorAll('.ct-header-nav .menu a, #offcanvas .mobile-menu a');
+      
+      allMenuLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (!href) return;
+        
+        let linkPath = href;
+        if (linkPath.startsWith('http://') || linkPath.startsWith('https://')) {
+          try {
+            linkPath = new URL(linkPath).pathname;
+          } catch(e) {}
+        }
+        linkPath = linkPath.replace(/\/index\.html$/, '/');
+        if (!linkPath.endsWith('/') && !linkPath.includes('#')) linkPath += '/';
+        
+        // Exact match for Home (English '/' or Spanish '/es/')
+        const isHomeLink = linkPath === '/' || linkPath === '/es/';
+        const isCurrentHome = normalizedPath === '/' || normalizedPath === '/es/';
+        
+        let isMatch = false;
+        if (isHomeLink) {
+          isMatch = isCurrentHome && (linkPath === normalizedPath);
+        } else if (linkPath !== '/' && linkPath !== '/es/') {
+          // Exact match or sub-page match
+          if (normalizedPath === linkPath) {
+            isMatch = true;
+          } else if (linkPath !== '/' && normalizedPath.startsWith(linkPath)) {
+            isMatch = true;
+          }
+        }
+        
+        if (isMatch) {
+          link.classList.add('is-active', 'current-menu-link');
+          const li = link.closest('li');
+          if (li) {
+            li.classList.add('current-menu-item', 'current_page_item', 'is-active');
+          }
+          // If in mega menu, also highlight parent Services item
+          const parentMega = link.closest('.ct-mega-menu-item');
+          if (parentMega) {
+            parentMega.classList.add('current-menu-item', 'is-active');
+            const parentTrigger = parentMega.querySelector(':scope > .ct-menu-link');
+            if (parentTrigger) parentTrigger.classList.add('is-active', 'current-menu-link');
+          }
+        }
+      });
+    } catch(err) {
+      console.warn('Active menu highlight error:', err);
+    }
+  })();
+
   // 6. Interactive Instant Search Engine across Entire Site
   (function initInteractiveSearch() {
     const searchModal = document.getElementById('search-modal');
