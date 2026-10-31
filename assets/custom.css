@@ -43,6 +43,10 @@ body.home header.ct-header:not(.is-sticky) {
   overflow: hidden !important;
   min-height: 730px !important;
   height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
 }
 
 .elementor-slides .swiper-slide-bg {
@@ -67,6 +71,37 @@ body.home header.ct-header:not(.is-sticky) {
 .elementor-slides .swiper-slide-inner {
   position: relative !important;
   z-index: 2 !important;
+  width: 100% !important;
+  height: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center !important;
+  padding: 40px 20px !important;
+  box-sizing: border-box !important;
+}
+
+.elementor-slides .swiper-slide-contents {
+  width: 100% !important;
+  max-width: 850px !important;
+  margin: 0 auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center !important;
+}
+
+.elementor-slides .elementor-slide-heading,
+.elementor-slides .elementor-slide-description {
+  text-align: center !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.elementor-slides .elementor-slide-button {
+  margin: 20px auto 0 !important;
 }
 
 /* Sticky scrolled state across all pages (including home) */
