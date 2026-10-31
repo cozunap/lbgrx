@@ -48,7 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Toggle on touch devices or keyboard
     if (triggerLink) {
       triggerLink.addEventListener('click', (e) => {
-        // If clicking on touchscreen or wanting to toggle
         if (window.innerWidth >= 1000 && ('ontouchstart' in window || navigator.maxTouchPoints > 0)) {
           if (!megaMenuItem.classList.contains('is-active')) {
             e.preventDefault();
@@ -98,7 +97,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const path = window.location.pathname;
       const isSpanishPath = path.startsWith('/es/') || path === '/es';
       
-      // Check if user has explicitly manually navigated or switched
       const userLangPreference = localStorage.getItem('lbgrx_lang_pref');
       
       if (isSpanishPath) {
@@ -106,7 +104,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      // If user has not explicitly locked English, detect browser language
       const browserLang = (navigator.languages && navigator.languages.length ? navigator.languages[0] : navigator.language || navigator.userLanguage || '').toLowerCase();
       const isSpanishBrowser = browserLang.startsWith('es');
 
@@ -122,4 +119,154 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   })();
 
+  // 6. Interactive Instant Search Engine across Entire Site
+  (function initInteractiveSearch() {
+    const searchModal = document.getElementById('search-modal');
+    if (!searchModal) return;
+
+    const searchInput = searchModal.querySelector('input[type="search"]');
+    const searchForm = searchModal.querySelector('form');
+    let resultsBox = null;
+    let searchData = null;
+
+    // Remove Blocksy live-search attribute so WordPress ajax isn't triggered
+    if (searchForm) {
+      searchForm.removeAttribute('data-live-results');
+      searchForm.classList.remove('ct-searching');
+    }
+
+    async function getSearchData() {
+      if (!searchData) {
+        try {
+          const res = await fetch('/assets/search-index.json');
+          if (res.ok) {
+            searchData = await res.json();
+          }
+        } catch (err) {
+          console.warn('Failed to load search index:', err);
+        }
+      }
+      return searchData || [];
+    }
+
+    // Preload index
+    setTimeout(getSearchData, 1500);
+
+    function getResultsBox() {
+      if (!resultsBox) {
+        resultsBox = document.createElement('div');
+        resultsBox.className = 'live-search-results-box';
+        resultsBox.style.display = 'none';
+        const panelContent = searchModal.querySelector('.ct-panel-content') || searchModal;
+        panelContent.appendChild(resultsBox);
+      }
+      return resultsBox;
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replace(/[&<>"']/g, m => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      })[m]);
+    }
+
+    async function runSearch(query) {
+      const box = getResultsBox();
+      if (!box) return;
+
+      const trimmed = (query || '').trim();
+      if (trimmed.length < 2) {
+        box.innerHTML = '';
+        box.style.display = 'none';
+        return;
+      }
+
+      const list = await getSearchData();
+      const q = trimmed.toLowerCase();
+      const isSpanish = window.location.pathname.startsWith('/es/') || window.location.pathname === '/es';
+
+      const results = list.filter(item => {
+        return (item.keywords && item.keywords.includes(q)) ||
+               (item.title && item.title.toLowerCase().includes(q)) ||
+               (item.excerpt && item.excerpt.toLowerCase().includes(q));
+      }).sort((a, b) => {
+        if (a.is_es === isSpanish && b.is_es !== isSpanish) return -1;
+        if (b.is_es === isSpanish && a.is_es !== isSpanish) return 1;
+        const aTitle = a.title.toLowerCase().includes(q);
+        const bTitle = b.title.toLowerCase().includes(q);
+        if (aTitle && !bTitle) return -1;
+        if (!aTitle && bTitle) return 1;
+        return 0;
+      }).slice(0, 8);
+
+      if (results.length === 0) {
+        const noText = isSpanish
+          ? `No se encontraron resultados para "<strong>${escapeHtml(trimmed)}</strong>".`
+          : `No products or pages found for "<strong>${escapeHtml(trimmed)}</strong>".`;
+        box.innerHTML = `<div class="live-search-empty">${noText}</div>`;
+        box.style.display = 'block';
+        return;
+      }
+
+      let html = '';
+      results.forEach(item => {
+        html += `
+          <a href="${escapeHtml(item.url)}" class="live-search-item">
+            <div class="live-search-info">
+              <span class="live-search-category">${escapeHtml(item.category)}</span>
+              <span class="live-search-title">${escapeHtml(item.title)}</span>
+              ${item.excerpt ? `<span class="live-search-excerpt">${escapeHtml(item.excerpt)}</span>` : ''}
+            </div>
+            <span class="live-search-arrow">&rarr;</span>
+          </a>
+        `;
+      });
+
+      box.innerHTML = html;
+      box.style.display = 'block';
+    }
+
+    if (searchInput) {
+      let timer;
+      const onType = (e) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          runSearch(searchInput.value);
+        }, 120);
+      };
+
+      searchInput.addEventListener('input', onType);
+      searchInput.addEventListener('keyup', onType);
+    }
+
+    if (searchForm) {
+      searchForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (searchInput && searchInput.value.trim()) {
+          runSearch(searchInput.value.trim());
+        }
+      });
+    }
+
+    // Auto focus and auto run when modal opens
+    const observer = new MutationObserver(() => {
+      const isOpen = searchModal.classList.contains('active') || searchModal.classList.contains('is-active');
+      if (isOpen && searchInput) {
+        setTimeout(() => {
+          searchInput.focus();
+          if (searchInput.value.trim().length >= 2) {
+            runSearch(searchInput.value.trim());
+          }
+        }, 100);
+      } else if (!isOpen && resultsBox) {
+        resultsBox.style.display = 'none';
+      }
+    });
+
+    observer.observe(searchModal, { attributes: true, attributeFilter: ['class'] });
+  })();
 });
