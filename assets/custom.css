@@ -207,3 +207,410 @@ article.entry-card img {
 
 
 
+
+/* ==========================================================================
+   Header Standard Navigation & Mega Menu Styles
+   ========================================================================== */
+
+/* 3-Column Header Grid Layout on Desktop */
+@media (min-width: 1000px) {
+  #header [data-device="desktop"] [data-column-set="3"] > .ct-container {
+    display: grid !important;
+    grid-template-columns: auto 1fr auto !important;
+    align-items: center !important;
+    column-gap: 30px !important;
+    width: 100% !important;
+    max-width: var(--theme-normal-container-max-width, 1290px) !important;
+    margin: 0 auto !important;
+    padding-left: 30px !important;
+    padding-right: 30px !important;
+  }
+
+  /* Center the middle nav column */
+  #header [data-column="middle"] {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    min-width: 0 !important;
+  }
+
+  #header [data-column="middle"] > [data-items="primary"] {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+  }
+
+  /* Hide the hamburger trigger on desktop since standard menu is visible */
+  #header [data-device="desktop"] .ct-header-trigger {
+    display: none !important;
+  }
+}
+
+/* Nav Menu Structure */
+.ct-header-nav {
+  display: flex !important;
+  align-items: center !important;
+  height: 100% !important;
+}
+
+.ct-header-nav .menu {
+  display: flex !important;
+  align-items: center !important;
+  gap: 28px !important;
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.ct-header-nav .menu > li {
+  position: relative;
+  list-style: none !important;
+}
+
+/* Menu Top-level Links */
+.ct-header-nav .menu > li > .ct-menu-link {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+  color: #1a1a1a !important;
+  text-decoration: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 24px 0 !important;
+  position: relative !important;
+  transition: color 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.ct-header-nav .menu > li > .ct-menu-link svg {
+  fill: currentColor !important;
+  transition: transform 0.25s ease !important;
+}
+
+.ct-header-nav .menu > li:hover > .ct-menu-link svg {
+  transform: rotate(180deg);
+}
+
+.ct-header-nav .menu > li > .ct-menu-link:hover,
+.ct-header-nav .menu > li.current-menu-item > .ct-menu-link {
+  color: #F7941D !important; /* Brand Orange */
+}
+
+/* Transparent Header (Homepage initial state) */
+body.home header.ct-header:not(.is-sticky) .ct-header-nav .menu > li > .ct-menu-link {
+  color: #ffffff !important;
+}
+
+body.home header.ct-header:not(.is-sticky) .ct-header-nav .menu > li > .ct-menu-link:hover,
+body.home header.ct-header:not(.is-sticky) .ct-header-nav .menu > li.current-menu-item > .ct-menu-link {
+  color: #F7941D !important;
+}
+
+/* White background / sticky header link colors */
+header.ct-header.is-sticky .ct-header-nav .menu > li > .ct-menu-link {
+  color: #1a1a1a !important;
+}
+
+header.ct-header.is-sticky .ct-header-nav .menu > li > .ct-menu-link:hover {
+  color: #F7941D !important;
+}
+
+/* ==========================================================================
+   Mega Menu Container & Dropdown
+   ========================================================================== */
+
+.ct-mega-menu-item {
+  position: static !important; /* Positions dropdown relative to header row container */
+}
+
+#header [data-row="middle"] {
+  position: relative !important;
+}
+
+.mega-menu-container {
+  display: none;
+  position: absolute !important;
+  top: 100% !important;
+  left: 50% !important;
+  transform: translateX(-50%) translateY(10px);
+  width: 95vw !important;
+  max-width: 1140px !important;
+  background: #ffffff !important;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12), 0 2px 10px rgba(0, 0, 0, 0.06) !important;
+  border-radius: 10px !important;
+  border: 1px solid rgba(0, 0, 0, 0.06) !important;
+  padding: 35px 40px !important;
+  z-index: 99999 !important;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.25s ease !important;
+}
+
+/* Invisible bridge so mouse hover stays continuous */
+.mega-menu-container::before {
+  content: "" !important;
+  position: absolute !important;
+  top: -15px !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 15px !important;
+  background: transparent !important;
+}
+
+/* Show on Hover or when .is-active is toggled */
+.ct-mega-menu-item:hover > .mega-menu-container,
+.ct-mega-menu-item.is-active > .mega-menu-container {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  transform: translateX(-50%) translateY(0) !important;
+}
+
+/* 3-Column Grid Inside Mega Menu */
+.mega-menu-inner {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 36px !important;
+}
+
+/* Column Styling */
+.mega-column {
+  display: flex !important;
+  flex-direction: column !important;
+  min-width: 0 !important;
+}
+
+.mega-column-title {
+  margin: 0 0 14px 0 !important;
+  padding-bottom: 10px !important;
+  border-bottom: 2px solid #F7941D !important;
+}
+
+.mega-column-title a {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  color: #000000 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.03em !important;
+  text-decoration: none !important;
+  display: inline-block !important;
+  transition: color 0.2s ease !important;
+}
+
+.mega-column-title a:hover {
+  color: #F7941D !important;
+}
+
+/* Link Lists Inside Columns */
+.mega-links {
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 7px !important;
+}
+
+.mega-links li {
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.mega-links li a {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 13.5px !important;
+  font-weight: 500 !important;
+  color: #4a4a4a !important;
+  text-decoration: none !important;
+  display: inline-block !important;
+  padding: 3px 0 !important;
+  transition: color 0.2s ease, transform 0.2s ease !important;
+}
+
+.mega-links li a:hover {
+  color: #00AEEF !important; /* Brand Cyan accent on product items */
+  transform: translateX(4px) !important;
+}
+
+/* Hide on mobile devices */
+@media (max-width: 999.98px) {
+  .ct-header-nav {
+    display: none !important;
+  }
+  #header [data-device="desktop"] {
+    display: none !important;
+  }
+  #header [data-device="mobile"] {
+    display: block !important;
+  }
+}
+
+/* Ensure mobile header trigger icon is clearly visible and correctly styled */
+@media (max-width: 999.98px) {
+  #header [data-device="mobile"] .ct-header-trigger {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    padding: 8px !important;
+    background: transparent !important;
+    border: none !important;
+  }
+
+  #header [data-device="mobile"] .ct-header-trigger svg {
+    fill: #1a1a1a !important;
+    stroke: none !important;
+    width: 24px !important;
+    height: 18px !important;
+  }
+
+  #header [data-device="mobile"] .ct-header-trigger svg rect {
+    fill: #1a1a1a !important;
+  }
+
+  body.home header.ct-header:not(.is-sticky) [data-device="mobile"] .ct-header-trigger svg rect {
+    fill: #ffffff !important;
+  }
+
+  header.ct-header.is-sticky [data-device="mobile"] .ct-header-trigger svg rect {
+    fill: #1a1a1a !important;
+  }
+}
+
+/* Mobile Header Layout */
+@media (max-width: 999.98px) {
+  #header [data-device="mobile"] [data-row="middle"] > .ct-container {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+
+  #header [data-device="mobile"] [data-column="start"] {
+    flex: 1 !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  #header [data-device="mobile"] [data-column="end"] {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+  }
+}
+
+/* Force mobile header visibility under 1000px */
+@media (max-width: 999.98px) {
+  #header > div[data-device="desktop"] {
+    display: none !important;
+  }
+
+  #header > div[data-device="mobile"] {
+    display: block !important;
+    width: 100% !important;
+  }
+
+  #header [data-device="mobile"] .ct-sticky-container,
+  #header [data-device="mobile"] [data-sticky="slide"],
+  #header [data-device="mobile"] [data-row="middle"] {
+    display: block !important;
+    width: 100% !important;
+  }
+
+  #header [data-device="mobile"] [data-row="middle"] > .ct-container {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+    padding: 10px 20px !important;
+    box-sizing: border-box !important;
+  }
+
+  #header [data-device="mobile"] [data-column="start"],
+  #header [data-device="mobile"] [data-column="start"] > [data-items="primary"] {
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  #header [data-device="mobile"] [data-column="end"],
+  #header [data-device="mobile"] [data-column="end"] > [data-items="primary"] {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+  }
+
+  #header [data-device="mobile"] .ct-header-trigger {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 8px !important;
+    margin: 0 !important;
+    cursor: pointer !important;
+    z-index: 10 !important;
+  }
+
+  #header [data-device="mobile"] .ct-header-trigger svg {
+    display: block !important;
+    width: 24px !important;
+    height: 18px !important;
+  }
+
+  #header [data-device="mobile"] .ct-header-trigger svg rect {
+    fill: #1a1a1a !important;
+  }
+
+  body.home header.ct-header:not(.is-sticky) [data-device="mobile"] .ct-header-trigger svg rect {
+    fill: #ffffff !important;
+  }
+}
+
+/* Fix mobile logo sizing to prevent pushing header trigger off-screen */
+@media (max-width: 999.98px) {
+  #header [data-device="mobile"] .site-branding,
+  #header [data-device="mobile"] .site-logo-container {
+    max-height: 48px !important;
+    height: 48px !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  #header [data-device="mobile"] .site-logo-container img {
+    max-height: 44px !important;
+    height: 44px !important;
+    width: auto !important;
+    object-fit: contain !important;
+  }
+}
+
+/* Force mobile header logo width and container alignment */
+@media (max-width: 999.98px) {
+  #header [data-device="mobile"] .site-branding {
+    max-width: 160px !important;
+    width: auto !important;
+  }
+
+  #header [data-device="mobile"] .site-logo-container {
+    max-width: 160px !important;
+    width: auto !important;
+    height: 40px !important;
+  }
+
+  #header [data-device="mobile"] .site-logo-container img {
+    max-width: 100% !important;
+    max-height: 40px !important;
+    height: 40px !important;
+    width: auto !important;
+    object-fit: contain !important;
+  }
+}

@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
   triggers.forEach(t => t.addEventListener('click', openMenu));
   if (closeBtn) closeBtn.addEventListener('click', closeMenu);
 
-  // Submenu toggles inside offcanvas
+  // Submenu toggles inside offcanvas (Mobile)
   const dropdownButtons = document.querySelectorAll('#offcanvas .ct-toggle-dropdown-mobile');
   dropdownButtons.forEach(btn => {
     btn.addEventListener('click', (e) => {
@@ -40,7 +40,33 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 2. Sticky Header scroll detection
+  // 2. Desktop Mega Menu click/touch support
+  const megaMenuItem = document.querySelector('.ct-mega-menu-item');
+  if (megaMenuItem) {
+    const triggerLink = megaMenuItem.querySelector('> .ct-menu-link');
+    
+    // Toggle on touch devices or keyboard
+    if (triggerLink) {
+      triggerLink.addEventListener('click', (e) => {
+        // If clicking on touchscreen or wanting to toggle
+        if (window.innerWidth >= 1000 && ('ontouchstart' in window || navigator.maxTouchPoints > 0)) {
+          if (!megaMenuItem.classList.contains('is-active')) {
+            e.preventDefault();
+            megaMenuItem.classList.add('is-active');
+          }
+        }
+      });
+    }
+
+    // Close mega menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!megaMenuItem.contains(e.target)) {
+        megaMenuItem.classList.remove('is-active');
+      }
+    });
+  }
+
+  // 3. Sticky Header scroll detection
   const header = document.querySelector('header.ct-header');
   const stickyContainer = document.querySelector('.ct-sticky-container');
   
@@ -57,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
   }
 
-  // 3. Scroll to top handler
+  // 4. Scroll to top handler
   const scrollTops = document.querySelectorAll('[data-shortcut="scroll_top"]');
   scrollTops.forEach(st => {
     st.addEventListener('click', (e) => {
