@@ -1023,7 +1023,7 @@ body.home header.ct-header:not(.is-sticky) .ct-header-nav .menu > li > .ct-menu-
   height: 52px !important;
   z-index: 9999 !important;
   background-color: #000000 !important;
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4) !important;
+  box-shadow: none !important;
   transform: none !important;
   transition: none !important;
 }
