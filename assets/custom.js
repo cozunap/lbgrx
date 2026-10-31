@@ -1,4 +1,5 @@
-document.addEventListener('DOMContentLoaded', () => {
+(function() {
+  function initGlobalEnhancements() { 
   // 1. Offcanvas mobile menu toggle
   const offcanvas = document.getElementById('offcanvas');
   const triggers = document.querySelectorAll('[data-toggle-panel="#offcanvas"], .ct-header-trigger, [data-id="trigger"]');
@@ -43,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // 2. Desktop Mega Menu click/touch support
   const megaMenuItem = document.querySelector('.ct-mega-menu-item');
   if (megaMenuItem) {
-    const triggerLink = megaMenuItem.querySelector('> .ct-menu-link');
+    const triggerLink = megaMenuItem.querySelector(':scope > .ct-menu-link');
     
     // Toggle on touch devices or keyboard
     if (triggerLink) {
@@ -82,14 +83,46 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
   }
 
-  // 4. Scroll to top handler
-  const scrollTops = document.querySelectorAll('[data-shortcut="scroll_top"]');
-  scrollTops.forEach(st => {
-    st.addEventListener('click', (e) => {
+  // 4. Floating Scroll Back to Top & Shortcuts Handler
+  (function initScrollBackToTop() {
+    // Existing footer shortcut buttons
+    const scrollTops = document.querySelectorAll('[data-shortcut="scroll_top"]');
+    scrollTops.forEach(st => {
+      st.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+
+    // Create luxury floating back-to-top button if not already in DOM
+    let backToTopBtn = document.querySelector('.ct-back-to-top');
+    if (!backToTopBtn) {
+      backToTopBtn = document.createElement('button');
+      backToTopBtn.className = 'ct-back-to-top';
+      backToTopBtn.setAttribute('type', 'button');
+      backToTopBtn.setAttribute('aria-label', 'Scroll back to top');
+      backToTopBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l-8 8h5v8h6v-8h5z"/></svg>';
+      document.body.appendChild(backToTopBtn);
+    }
+
+    backToTopBtn.addEventListener('click', (e) => {
       e.preventDefault();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
-  });
+
+    // Toggle visibility on scroll (appear after user scrolls 350px down)
+    function checkScrollTopVisibility() {
+      const scrollY = window.scrollY || window.pageYOffset;
+      if (scrollY > 350) {
+        backToTopBtn.classList.add('is-visible');
+      } else {
+        backToTopBtn.classList.remove('is-visible');
+      }
+    }
+
+    window.addEventListener('scroll', checkScrollTopVisibility, { passive: true });
+    checkScrollTopVisibility();
+  })();
 
   // 5. Automatic Browser Language Detection (Bilingual English / Spanish routing)
   (function initLanguageRouting() {
@@ -269,4 +302,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     observer.observe(searchModal, { attributes: true, attributeFilter: ['class'] });
   })();
-});
+
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initGlobalEnhancements);
+  } else {
+    initGlobalEnhancements();
+  }
+})();
