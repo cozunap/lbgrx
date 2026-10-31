@@ -1,6 +1,22 @@
 <!DOCTYPE html>
 <html lang="en-US">
-<head><meta charset="UTF-8">
+<head>
+<script>
+(function(){
+  try {
+    var p = window.location.pathname;
+    if (p.indexOf('/es/') !== 0 && p !== '/es') {
+      var pref = localStorage.getItem('lbgrx_lang_pref');
+      var lang = (navigator.languages && navigator.languages.length ? navigator.languages[0] : navigator.language || '').toLowerCase();
+      if (lang.indexOf('es') === 0 && pref !== 'en') {
+        localStorage.setItem('lbgrx_lang_pref', 'es');
+        var target = p === '/' ? '/es/' : ('/es' + p);
+        window.location.replace(target + (window.location.search || '') + (window.location.hash || ''));
+      }
+    }
+  } catch(e) {}
+})();
+</script><meta charset="UTF-8">
 	
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover">

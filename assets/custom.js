@@ -91,4 +91,35 @@ document.addEventListener('DOMContentLoaded', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   });
+
+  // 5. Automatic Browser Language Detection (Bilingual English / Spanish routing)
+  (function initLanguageRouting() {
+    try {
+      const path = window.location.pathname;
+      const isSpanishPath = path.startsWith('/es/') || path === '/es';
+      
+      // Check if user has explicitly manually navigated or switched
+      const userLangPreference = localStorage.getItem('lbgrx_lang_pref');
+      
+      if (isSpanishPath) {
+        localStorage.setItem('lbgrx_lang_pref', 'es');
+        return;
+      }
+
+      // If user has not explicitly locked English, detect browser language
+      const browserLang = (navigator.languages && navigator.languages.length ? navigator.languages[0] : navigator.language || navigator.userLanguage || '').toLowerCase();
+      const isSpanishBrowser = browserLang.startsWith('es');
+
+      if (isSpanishBrowser && userLangPreference !== 'en') {
+        localStorage.setItem('lbgrx_lang_pref', 'es');
+        const search = window.location.search || '';
+        const hash = window.location.hash || '';
+        const targetPath = path === '/' ? '/es/' : ('/es' + path);
+        window.location.replace(targetPath + search + hash);
+      }
+    } catch (e) {
+      console.warn('Language detection routing error:', e);
+    }
+  })();
+
 });
