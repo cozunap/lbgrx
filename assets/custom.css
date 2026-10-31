@@ -1008,8 +1008,19 @@ body.home header.ct-header:not(.is-sticky) .ct-header-nav .menu > li > .ct-menu-
 /* ==========================================================================
    Persistent Bottom Shortcuts Bar (Home, Phone, Get a Quote, Scroll to Top)
    ========================================================================== */
-.ct-drawer-canvas[data-shortcuts-bar],
-.ct-drawer-canvas[data-location="end"],
+.ct-drawer-canvas {
+  position: static !important;
+  pointer-events: none !important;
+}
+
+.ct-drawer-canvas .ct-drawer-inner {
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+  pointer-events: none !important;
+  transform: none !important;
+}
+
 .ct-shortcuts-bar {
   display: block !important;
   visibility: visible !important;
@@ -1028,11 +1039,6 @@ body.home header.ct-header:not(.is-sticky) .ct-header-nav .menu > li > .ct-menu-
   transition: none !important;
 }
 
-.ct-drawer-canvas .ct-drawer-inner {
-  transform: none !important;
-  height: 100% !important;
-}
-
 .ct-shortcuts-bar-items {
   display: flex !important;
   flex-direction: row !important;
@@ -1043,6 +1049,7 @@ body.home header.ct-header:not(.is-sticky) .ct-header-nav .menu > li > .ct-menu-
   padding: 0 10px !important;
   background-color: #000000 !important;
   list-style: none !important;
+  pointer-events: auto !important;
 }
 
 .ct-shortcuts-bar-items li {
@@ -1054,9 +1061,10 @@ body.home header.ct-header:not(.is-sticky) .ct-header-nav .menu > li > .ct-menu-
   position: relative !important;
   margin: 0 !important;
   padding: 0 !important;
+  pointer-events: auto !important;
 }
 
-/* Vertical dashed dividers between items matching design */
+/* Vertical dashed dividers between items */
 .ct-shortcuts-bar-items li:not(:last-child)::after {
   content: '' !important;
   position: absolute !important;
@@ -1077,6 +1085,7 @@ body.home header.ct-header:not(.is-sticky) .ct-header-nav .menu > li > .ct-menu-
   color: #ffffff !important;
   background: transparent !important;
   text-decoration: none !important;
+  pointer-events: auto !important;
   transition: transform 0.2s ease, color 0.2s ease !important;
 }
 
@@ -1129,6 +1138,7 @@ body {
 .lbgrx-quote-modal-overlay.is-active {
   opacity: 1;
   visibility: visible;
+  pointer-events: auto;
 }
 
 .lbgrx-quote-modal-card {
