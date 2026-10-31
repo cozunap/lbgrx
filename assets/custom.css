@@ -1117,3 +1117,13 @@ body.home header.ct-header:not(.is-sticky) .ct-header-nav .menu > li > .ct-menu-
 body {
   padding-bottom: 52px !important;
 }
+
+/* Ensure the original Elementor popup modal sits above the bottom bar with clear scrolling */
+#elementor-popup-modal-2279.dialog-type-lightbox {
+  z-index: 100000 !important;
+}
+
+#elementor-popup-modal-2279 .dialog-message {
+  padding-bottom: 70px !important;
+  box-sizing: border-box !important;
+}
