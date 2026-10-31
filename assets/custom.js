@@ -329,161 +329,65 @@
 
   // 4. Persistent Bottom Shortcuts Bar Action Handler
   (function initBottomShortcutsBar() {
-    function handleQuotePopup(e) {
-      if (e) e.preventDefault();
-      
-      // Check if modal already exists
-      let overlay = document.querySelector('.lbgrx-quote-modal-overlay');
-      if (!overlay) {
-        overlay = document.createElement('div');
-        overlay.className = 'lbgrx-quote-modal-overlay';
-        overlay.setAttribute('role', 'dialog');
-        overlay.setAttribute('aria-modal', 'true');
-        overlay.setAttribute('aria-label', 'Get a Quote');
-        
-        const card = document.createElement('div');
-        card.className = 'lbgrx-quote-modal-card';
-        
-        const closeBtn = document.createElement('button');
-        closeBtn.className = 'lbgrx-quote-modal-close';
-        closeBtn.setAttribute('type', 'button');
-        closeBtn.setAttribute('aria-label', 'Close quote modal');
-        closeBtn.innerHTML = '&times;';
-        closeBtn.addEventListener('click', () => {
-          overlay.classList.remove('is-active');
-          document.body.style.overflow = '';
-        });
-        
-        // Find existing popup form in page or inject standard form
-        const existingForm = document.querySelector('form[name="Get A Quote Form"]');
-        let formContentHtml = '';
-        
-        if (existingForm) {
-          formContentHtml = existingForm.parentElement.parentElement.innerHTML;
-        } else {
-          // Standard quote form template
-          formContentHtml = `
-            <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 18px; color: #0d1f3c;">Get A Custom Quote</h2>
-            <form class="elementor-form" method="post" name="Get A Quote Form" aria-label="Get A Quote Form">
-              <div class="elementor-form-fields-wrapper">
-                <div style="margin-bottom: 14px;">
-                  <input style="width: 100%; padding: 12px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px;" type="text" name="form_fields[field_0cd2390]" placeholder="Full Name*" required>
-                </div>
-                <div style="margin-bottom: 14px;">
-                  <input style="width: 100%; padding: 12px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px;" type="email" name="form_fields[email]" placeholder="Email*" required>
-                </div>
-                <div style="margin-bottom: 14px;">
-                  <input style="width: 100%; padding: 12px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px;" type="text" name="form_fields[name]" placeholder="Company">
-                </div>
-                <div style="margin-bottom: 14px;">
-                  <input style="width: 100%; padding: 12px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px;" type="tel" name="form_fields[field_e16ab7a]" placeholder="Phone">
-                </div>
-                <div style="margin-bottom: 14px;">
-                  <textarea style="width: 100%; padding: 12px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; min-height: 100px;" name="form_fields[message]" placeholder="Project Details*" required></textarea>
-                </div>
-                <div>
-                  <button type="submit" style="width: 100%; padding: 14px; background: #F7941D; color: #ffffff; border: none; border-radius: 8px; font-weight: 700; font-size: 16px; cursor: pointer; transition: background 0.2s;">Get a quote now!</button>
-                </div>
-              </div>
-            </form>
-          `;
-        }
-        
-        card.appendChild(closeBtn);
-        const contentDiv = document.createElement('div');
-        contentDiv.innerHTML = formContentHtml;
-        card.appendChild(contentDiv);
-        overlay.appendChild(card);
-        document.body.appendChild(overlay);
-        
-        // Close on clicking backdrop
-        overlay.addEventListener('click', (ev) => {
-          if (ev.target === overlay) {
-            overlay.classList.remove('is-active');
-            document.body.style.overflow = '';
-          }
-        });
-        
-        // Attach form submission to Cloudflare Pages Functions endpoint
-        const form = overlay.querySelector('form');
-        if (form) {
-          form.addEventListener('submit', async (eSubmit) => {
-            eSubmit.preventDefault();
-            const submitBtn = form.querySelector('button[type="submit"]');
-            const originalText = submitBtn ? submitBtn.innerText : '';
-            if (submitBtn) {
-              submitBtn.disabled = true;
-              submitBtn.innerText = 'Sending...';
-            }
-            try {
-              const formData = new FormData(form);
-              const res = await fetch('/api/quote', {
-                method: 'POST',
-                body: formData
-              });
-              const json = await res.json();
-              if (json.success) {
-                form.innerHTML = '<div style="padding: 24px; text-align: center; color: #16a34a; font-weight: 600; font-size: 18px;">✓ ' + (json.message || 'Thank you! Your quote request has been received.') + '</div>';
-                setTimeout(() => {
-                  overlay.classList.remove('is-active');
-                  document.body.style.overflow = '';
-                }, 3500);
-              } else {
-                alert(json.message || 'Please check your information and try again.');
-                if (submitBtn) {
-                  submitBtn.disabled = false;
-                  submitBtn.innerText = originalText;
-                }
-              }
-            } catch (err) {
-              alert('Error submitting quote. Please call us directly at 212-246-2600.');
-              if (submitBtn) {
-                submitBtn.disabled = false;
-                submitBtn.innerText = originalText;
-              }
-            }
-          });
-        }
+    function openOriginalQuotePopup(e) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
       }
-      
-      overlay.classList.add('is-active');
-      document.body.style.overflow = 'hidden';
+
+      // 1. Native Elementor Pro popup module
+      try {
+        if (window.elementorProFrontend && window.elementorProFrontend.modules && window.elementorProFrontend.modules.popup) {
+          window.elementorProFrontend.modules.popup.showPopup({ id: '2279' });
+          return;
+        }
+      } catch(err) {}
+
+      // 2. Dispatch click on native popup trigger link in hero banner
+      var slideLink = document.querySelector('a[href*="popup%3Aopen"]');
+      if (slideLink) {
+        slideLink.click();
+        return;
+      }
+
+      // 3. Document modal fallback
+      try {
+        if (window.elementorFrontend && window.elementorFrontend.documentsManager) {
+          var doc = window.elementorFrontend.documentsManager.documents['2279'];
+          if (doc && doc.getModal) {
+            doc.getModal().show();
+            return;
+          }
+        }
+      } catch(err) {}
+
+      // 4. URL hash action trigger
+      try {
+        window.location.hash = 'elementor-action:action=popup:open&settings=eyJpZCI6IjIyNzkiLCJ0b2dnbGUiOmZhbHNlfQ==';
+      } catch(err) {}
     }
 
     function wireShortcuts() {
-      // 1. Home icon
+      // 1. Home icon -> Navigate home
       document.querySelectorAll('[data-shortcut="home"]').forEach(el => {
         el.setAttribute('href', '/');
-        el.onclick = null;
       });
 
-      // 2. Phone icon
+      // 2. Phone icon -> Direct call
       document.querySelectorAll('[data-shortcut="phone"]').forEach(el => {
         el.setAttribute('href', 'tel:212-246-2600');
-        el.addEventListener('click', (e) => {
-          // Allow standard tel: link behavior to trigger native phone dialer
-        });
       });
 
-      // 3. @ symbol (Email / Quote) -> opens Get a Quote popup
+      // 3. @ symbol -> Open original Elementor "Custom Quote" popup
       document.querySelectorAll('[data-shortcut="email"]').forEach(el => {
         el.removeAttribute('href');
         el.style.cursor = 'pointer';
         el.setAttribute('role', 'button');
         el.setAttribute('aria-label', 'Get a Quote');
-        el.addEventListener('click', handleQuotePopup);
+        el.addEventListener('click', openOriginalQuotePopup);
       });
 
-      // Also support hero "Get a quote" buttons triggering the popup
-      document.querySelectorAll('.elementor-slide-button').forEach(btn => {
-        btn.style.cursor = 'pointer';
-        btn.addEventListener('click', handleQuotePopup);
-      });
-      document.querySelectorAll('a[href*="popup%3Aopen"]').forEach(a => {
-        a.addEventListener('click', handleQuotePopup);
-      });
-
-      // 4. Arrow icon (Scroll to Top)
+      // 4. Arrow icon -> Smooth scroll back to top
       document.querySelectorAll('[data-shortcut="scroll_top"]').forEach(el => {
         el.removeAttribute('href');
         el.style.cursor = 'pointer';
